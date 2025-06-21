@@ -6,21 +6,18 @@ const { createClient } = require('@supabase/supabase-js');
 const app = express();
 const port = process.env.PORT || 4000;
 
-// CORS config
-const allowedOrigins = ['http://localhost:3000', 'https://your-frontend.vercel.app'];
-
+// ✅ Enable CORS for specific origins
 app.use(cors({
-  origin: allowedOrigins,
+  origin: ['http://localhost:3000', 'https://your-frontend.vercel.app'],
   methods: ['GET', 'POST', 'OPTIONS'],
   allowedHeaders: ['Content-Type'],
-  credentials: true,
 }));
 
-// Explicitly handle preflight OPTIONS request
+// ✅ Handle preflight requests
 app.options('*', cors());
 
+// JSON parser
 app.use(express.json());
-console.log(process.env.SUPABASE_URL)
 
 // Supabase client
 const supabase = createClient(
