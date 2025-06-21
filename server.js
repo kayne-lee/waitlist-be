@@ -6,10 +6,20 @@ const { createClient } = require('@supabase/supabase-js');
 const app = express();
 const port = process.env.PORT || 4000;
 
-// Middleware
-app.use(cors());
-app.use(express.json());
+// CORS config
+const allowedOrigins = ['http://localhost:3000', 'https://your-frontend.vercel.app'];
+
+app.use(cors({
+  origin: allowedOrigins,
+  methods: ['GET', 'POST', 'OPTIONS'],
+  allowedHeaders: ['Content-Type'],
+  credentials: true,
+}));
+
+// Explicitly handle preflight OPTIONS request
 app.options('*', cors());
+
+app.use(express.json());
 console.log(process.env.SUPABASE_URL)
 
 // Supabase client
